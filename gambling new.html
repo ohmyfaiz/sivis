@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Game Slot</title>
+  <style>
+    .slot {
+      width: 100px;
+      height: 100px;
+      border: 1px solid black;
+      display: inline-block;
+      font-size: 36px;
+      text-align: center;
+      line-height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align: center">FRUIT WIN</h1>
+  <div id="slot-container">
+    <div class="slot" id="slot1">⚡</div>
+    <div class="slot" id="slot2">⚡</div>
+    <div class="slot" id="slot3">⚡</div>
+  </div>
+  <button id="spin">Putar</button>
+  <p id="hasil"></p>
+  <p id="kredit">Kredit: 1000</p>
+  <input id="bet" type="number" value="100" placeholder="Masukkan taruhan">
+  <button id="set-bet">Set Taruhan</button>
+  <a style="text-align center" href="deposit.html"><button>Deposit</button></a>
+
+  <script>
+    let kredit = 1000;
+    let taruhan = 100;
+    let simbol = ['⚡', '🥭', '🍇', '🍋', '🍒', '⚡', '⚡⚡']; // X adalah simbol pengganda kemenangan
+    let pengganda = {
+      '⚡': 5  
+    };
+    let pengganda2 = {
+      '⚡⚡': 10 
+    };
+
+    document.getElementById("set-bet").addEventListener("click", () => {
+      taruhan = parseInt(document.getElementById("bet").value);
+      if (taruhan < 100) {
+        alert("Taruhan minimal adalah 100");
+        taruhan = 100;
+        document.getElementById("bet").value = taruhan;
+      }
+      document.getElementById("kredit").innerHTML = `Kredit: ${kredit}`;
+    });
+
+    document.getElementById("spin").addEventListener("click", () => {
+      if (kredit >= taruhan) {
+        kredit -= taruhan;
+        document.getElementById("kredit").innerHTML = `Kredit: ${kredit}`;
+        putarSlot();
+      } else {
+        document.getElementById("hasil").innerHTML = "Kredit tidak cukup!";
+      }
+    });
+
+    function putarSlot() {
+      let slot1 = simbol[Math.floor(Math.random() * simbol.length)];
+      let slot2 = simbol[Math.floor(Math.random() * simbol.length)];
+      let slot3 = simbol[Math.floor(Math.random() * simbol.length)];
+
+      document.getElementById("slot1").innerHTML = slot1;
+      document.getElementById("slot2").innerHTML = slot2;
+      document.getElementById("slot3").innerHTML = slot3;
+
+      cekHasil(slot1, slot2, slot3);
+    }
+
+    function cekHasil(slot1, slot2, slot3) {
+      let kemenangan = 0;
+      let penggandaKemenangan = 1;
+      let penggandaKemenangan2 = 5;
+      let doublekemenangan = 20;
+      let doublekemenangan2 = 50;
+
+      if (slot1 === slot2 && slot2 === slot3) {
+        kemenangan = taruhan * 10;
+        if (slot1 === '⚡')  {
+          penggandaKemenangan = pengganda['⚡'];
+        }
+        
+        if (slot1 === '⚡⚡') {
+          doublekemenangan = pengganda2['⚡⚡'];
+        }
+   
+        document.getElementById("hasil").innerHTML = `Selamat! Anda menang ${kemenangan * penggandaKemenangan}`;
+      } else if (slot1 === slot2 || slot2 === slot3 || slot1 === slot3 ){
+        kemenangan = taruhan * 2;
+        document.getElementById("hasil").innerHTML = `Anda mendapatkan hadiah kecil ${kemenangan}`;
+      } else {
+        document.getElementById("hasil").innerHTML= "Maaf, Anda kalah!";
+      }
+
+      if (kemenangan > 0) {
+        kredit += kemenangan * penggandaKemenangan;
+        document.getElementById("kredit").innerHTML = `Kredit: ${kredit}`;
+      } else if ( kemenangan > 0 ) {
+        kredit += kemenangan * doublekemenangan; document.getElementById("kredit").innerHTML = `kredit: ${Kredit}`;
+      }
+        
+      
+      
+    }
+  </script>
+</body>
+</html>

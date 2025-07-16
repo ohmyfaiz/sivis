@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Halaman Login</title>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="login-form">
+    <label>Username:</label>
+    <input type="text" id="username" name="username"><br><br>
+    <label>Password:</label>
+    <input type="password" id="password" name="password"><br><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    document.getElementById("login-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      let username = document.getElementById("username").value;
+      let password = document.getElementById("password").value;
+
+      if (username === "" || password === "") {
+        alert("Username atau password tidak boleh kosong!");
+      } else if (username.length < 4 || password.length < 4) {
+        alert("Username dan password harus lebih dari 4 karakter!");
+      } else if (username === "alfaiz" && password === "demo") {
+        alert("Login berhasil!");
+        // Tambahkan kode untuk mengarahkan ke halaman lain setelah login berhasil
+        window.location.href = "home.html";
+      } else {
+        alert("Username atau password salah!");
+      }
+    });
+  </script>
+</body>
+</html>
